@@ -1,0 +1,19 @@
+<resources>
+    <!-- Global -->
+    <string name="app_name">Chat</string>
+
+    <!-- TopicViewer Activity -->
+    <string name="message_hint">Enter a message…</string>
+    <string name="send">SEND</string>
+
+    <!-- SignInActivity -->
+    <string name="sign_in">Sign In</string>
+
+    <!-- Menu -->
+    <string name="menu_add_string">Add</string>
+    <string name="disconnect">Disconnect</string>
+
+    <!-- AddTopic Activity -->
+    <string name="create_topic">Create topic</string>
+    <string name="create_topic_hint">Topic name…</string>
+</resources>
