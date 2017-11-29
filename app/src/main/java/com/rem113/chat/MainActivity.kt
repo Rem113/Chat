@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         private val TITLE = "title"
         private val LAST = "last"
         private val MESSAGES = "messages"
+        private val ID = "id"
     }
 
     // Firestore
@@ -31,17 +32,24 @@ class MainActivity : AppCompatActivity() {
     private val mAuth = FirebaseAuth.getInstance()
     private var mUser = mAuth.currentUser
 
-    private fun getTopics(topicList : MutableList<TopicReference>) {
+    private fun connect() {
+        startActivity(Intent(this, SignInActivity::class.java))
+        finish()
+    }
+
+    private fun getTopics(topicList: MutableList<TopicReference>) {
         mRef.get().addOnCompleteListener { task ->
 
             topicList.clear()
 
             if (task.isSuccessful) {
-                task.result.documents.mapTo(topicList) { it -> TopicReference(
-                        it[Companion.DATE] as Date,
-                        it[Companion.TITLE] as String,
-                        it[Companion.LAST] as String,
-                        it[Companion.MESSAGES] as String)
+                task.result.documents.mapTo(topicList) { it ->
+                    TopicReference(
+                            it[Companion.DATE] as Date,
+                            it[Companion.TITLE] as String,
+                            it[Companion.LAST] as String,
+                            it[Companion.MESSAGES] as String,
+                            it[Companion.ID] as String)
                 }
 
                 recyclerView.adapter.notifyDataSetChanged()
@@ -58,6 +66,10 @@ class MainActivity : AppCompatActivity() {
         if (mUser == null) {
             connect()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         // Set up the swipe to refresh
         swipeRefreshLayout.setOnRefreshListener {
@@ -67,10 +79,6 @@ class MainActivity : AppCompatActivity() {
         // Sets up the RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = TopicReferenceAdapter(mTopicsList, this)
-    }
-
-    override fun onResume() {
-        super.onResume()
 
         if (mUser != null) {
             getTopics(mTopicsList)
@@ -82,25 +90,21 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) : Boolean {
-        when (item.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.add_topic -> {
                 startActivity(Intent(this, AddTopic::class.java))
-                return true
+                true
             }
 
             R.id.disconnect -> {
                 mAuth.signOut()
                 connect()
-                return true
+                true
             }
 
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun connect() {
-        startActivity(Intent(this, SignInActivity::class.java))
-        finish()
-    }
 }

@@ -16,10 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TopicViewer" />
+        <activity
+            android:name=".TopicViewer" />
         <activity android:name=".AddTopic" />
-        <activity android:name=".SignInActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".SignInActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

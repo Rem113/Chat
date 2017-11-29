@@ -5,12 +5,14 @@ import android.os.Parcelable
 import java.util.*
 
 data class TopicReference(val date: Date,
-                 var title: String,
-                 var last: String,
-                 var messages : String) : Parcelable {
+                          var title: String,
+                          var last: String,
+                          var messages: String,
+                          var id: String) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readSerializable() as Date,
+            parcel.readString(),
             parcel.readString(),
             parcel.readString(),
             parcel.readString())
@@ -20,6 +22,7 @@ data class TopicReference(val date: Date,
         parcel.writeString(title)
         parcel.writeString(last)
         parcel.writeString(messages)
+        parcel.writeString(id)
     }
 
     override fun describeContents() = 0
